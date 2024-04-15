@@ -32,16 +32,10 @@ def calculate_next_psi(psi, dt, potential):
     return next_psi
 
 
-def sim(sim_fps=400, duration=5, sim_speed=0.004, slit_style='double'):
-    n = 128
-
+def sim(n, sim_fps, duration, slits, sim_speed=0.004):
     potential = np.array([[parabola(x, y, n, offset=[0, 0], factor=10000) for x in range(n)] for y in range(n)])
 
     # barrier
-    double_slit = [(-4, -2), (2, 4)]
-    single_slit = [(-2, 2)]
-    slits = single_slit if slit_style == 'single' else double_slit
-
     barrier_height = 1e60
     barrier = [barrier_height] * n
     for s in slits:
