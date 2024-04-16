@@ -22,7 +22,7 @@ def calculate_next_psi(psi, dt, potential):
 
     next_psi = np.fft.fft2(next_psi)
 
-    indices = 2 * np.pi * np.min([np.arange(n), n - np.arange(n)], axis=0)
+    indices = 2 * np.pi * np.min(np.array([np.arange(n), n - np.arange(n)]), axis=0)
     k = indices.reshape(-1, 1)
     l = indices.reshape(1, -1)
     theta = (k * k + l * l) * dt
@@ -42,7 +42,7 @@ def sim(n, sim_fps, duration, slits, sim_speed, initial_state=None, potential=No
     for s in slits:
         barrier[n // 2 + s[0]:n // 2 + s[1]] = [0] * (s[1] - s[0])
     for i in range(n):
-        potential[:, n // 2 - 1] += barrier
+        potential[:, n // 2 - 1] += np.array(barrier)
 
     # simulation
     frame_amount = duration * sim_fps
