@@ -32,8 +32,9 @@ def calculate_next_psi(psi, dt, potential):
     return next_psi
 
 
-def sim(n, sim_fps, duration, slits, sim_speed):
-    potential = np.array([[parabola(x, y, n, offset=[0, 0], factor=10000) for x in range(n)] for y in range(n)])
+def sim(n, sim_fps, duration, slits, sim_speed, initial_state=None, potential=None):
+    if potential is None:
+        potential = np.array([[parabola(x, y, n, offset=[0, 0], factor=10000) for x in range(n)] for y in range(n)])
 
     # barrier
     barrier_height = 1e60
@@ -47,7 +48,10 @@ def sim(n, sim_fps, duration, slits, sim_speed):
     frame_amount = duration * sim_fps
 
     frames = np.empty((frame_amount, n, n), dtype=complex)  # for storing the generated images
-    frames[0] = np.array([[gaussian(x, y, n, offset=[-0.6, 0.0], width=0.15) for x in range(n)] for y in range(n)])
+    if initial_state is None:
+        frames[0] = np.array([[gaussian(x, y, n, offset=[-0.6, 0.0], width=0.05) for x in range(n)] for y in range(n)])
+    else:
+        frames[0] = initial_state
 
     # plt.pcolormesh(pow(np.abs(frames[0]), 2.0/3.0), cmap='inferno', vmin=0, vmax=1)
     # plt.pcolormesh(potential, vmin=0, vmax=20000)
