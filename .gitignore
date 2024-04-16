@@ -1,3 +1,4 @@
-.idea/
-temp_frame.png
-output/
+/output/
+/ffmpeg
+/.idea/
+/temp_frame.png
