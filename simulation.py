@@ -32,7 +32,7 @@ def calculate_next_psi(psi, dt, potential):
     return next_psi
 
 
-def sim(n, sim_fps, duration, slits, sim_speed=0.004):
+def sim(n, sim_fps, duration, slits, sim_speed):
     potential = np.array([[parabola(x, y, n, offset=[0, 0], factor=10000) for x in range(n)] for y in range(n)])
 
     # barrier
