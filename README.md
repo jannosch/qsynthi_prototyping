@@ -64,3 +64,34 @@
 - Abstastung: Durchschnitt parallel zur Anregung
 - Rauschen durch Federauslenkung nicht mehr so stark
 - Artefakt am Start immer noch hörbar
+
+---
+
+#### Statische Simulation mit Dirac-Anregung
+[physical_modelling_2_transverse.ipynb](physical_modelling_2_transverse.ipynb)
+````
+sample_rate = 4 * 44100
+
+listening = average_listening
+excitement_point = np.array([64, 28])
+
+dampening_per_second = 1 - 1e-3
+spring_strength = sample_rate * 600
+min_mass = 0.01
+max_mass = 1
+
+spatial_step = 4
+
+sonification_duration = 3
+````
+
+[sonification_2024_04_17-10_42_05_baseline.wav](results%2Fsonification_2024_04_17-10_42_05_baseline.wav)
+- Massenverteilung: 1
+- "Baseline"
+
+[sonification_2024_04_17-10_43_57_static0.wav](results%2Fsonification_2024_04_17-10_43_57_static0.wav)
+- Massenverteilung: Glockenkurve von frame[0]
+
+[sonification_2024_04_17-11_01_45_static0_scaled.wav](results%2Fsonification_2024_04_17-11_01_45_static0_scaled.wav)
+- Massenverteilung: Glockenkurve von frame[0]
+- Abtastung: Gewichteter Durchschnitt von Simulation (Glockenkurve)
