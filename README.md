@@ -90,6 +90,10 @@
   - Startet zwar in lokalen Energieminimum (alle Phasen sind gleich -> Alle Federn spannen sehr) aber wird sehr schnell instabil bei Phasenänderung der Simulation
 - Wieder kaum Resonanz
 
+[combination_2024_04_18-16_35_19_norm_n32_96k_e-15.mp4](results%2Fphysical_modelling%2Fcombination_2024_04_18-16_35_19_norm_n32_96k_e-15.mp4)
+- ohne variable Federlängen
+- kräftigeres Rauschen im Vergleich zu obigem
+
 [combination_2024_04_15-13_56_29_orth_n32_96k_e-15.mp4](results%2Fphysical_modelling%2Fcombination_2024_04_15-13_56_29_orth_n32_96k_e-15.mp4)
 - Abtastung: Durchschnitt orthogonal zur Anregung
 - Artefakte zu Federauslenkung dominieren
