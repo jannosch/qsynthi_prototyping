@@ -5,7 +5,7 @@ import numpy as np
 def gaussian(x, y, n, offset, width):
     x = (x - n / 2.0) / (n / 2.0) - offset[0]
     y = (y - n / 2.0) / (n / 2.0) - offset[1]
-    return np.exp(-(x * x + y * y) / (width * width)) + 0j
+    return np.exp(-(x * x + y * y) / (width * width)).astype(complex)
 
 
 def parabola(x, y, n, offset, factor):
