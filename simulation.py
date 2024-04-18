@@ -1,7 +1,7 @@
 import numpy as np
 # import matplotlib.pyplot as plt
 
-
+# TODO: Scale to integral = 1
 def gaussian(x, y, n, offset, width):
     x = (x - n / 2.0) / (n / 2.0) - offset[0]
     y = (y - n / 2.0) / (n / 2.0) - offset[1]
