@@ -16,6 +16,8 @@
 
 ### Ergebnisse
 
+#### Circle of interest
+
 [combination_2024_04_17-14_02_09.mp4](results%2Fmapping%2Fcombination_2024_04_17-14_02_09.mp4)
 - Interpolation von Komplexen Zahlen
 - initial
@@ -24,8 +26,15 @@
 - Interpolation von abs^2
 - Kein großer Unterschied zwischen Interpolation vor oder nach abs^2
 
+---
 
+#### Line of interest
 
+[combination_2024_04_18-14_47_45.mp4](results%2Fmapping%2Fcombination_2024_04_18-14_47_45.mp4)
+- Interpolation von abs^2
+- Grundsätzliche Funktionsfähigkeit von Interpolation bestätigt
+- Sauberer Klang
+- Starke Ähnlichkeit zum 1D Wavetable mit Tunneleffekt (QSynthi)
 
 
 ## Physical Modelling
@@ -43,7 +52,7 @@
 ### Ergebnisse:
 
 #### Transversal:
-- 1d transversale Schwinung, hohe Dämpfung, realistische Massen, 44100Hz
+- 1d transversale Schwingung, hohe Dämpfung, realistische Massen, 44100Hz
 
 [combination_2024_04_09-15_33_17.mp4](results%2Fphysical_modelling%2Fcombination_2024_04_09-15_33_17.mp4)
 - Starke Federn
