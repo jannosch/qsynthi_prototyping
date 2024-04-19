@@ -129,7 +129,31 @@ sonification_duration = 3
 
 [sonification_2024_04_17-10_43_57_static0.wav](results%2Fphysical_modelling%2Fsonification_2024_04_17-10_43_57_static0.wav)
 - Massenverteilung: Glockenkurve von frame[0]
+- Anregung auf Glockenkurve
+
+[sonification_2024_04_19-09_55_02.wav](results%2Fphysical_modelling%2Fsonification_2024_04_19-09_55_02.wav)
+- Massenverteilung: Glockenkurve von frame[0]
+- Anregung auf anderen Seite von Glockenkurve
+- Gleiche Frequenz nur heller
 
 [sonification_2024_04_17-11_01_45_static0_scaled.wav](results%2Fphysical_modelling%2Fsonification_2024_04_17-11_01_45_static0_scaled.wav)
 - Massenverteilung: Glockenkurve von frame[0]
 - Abtastung: Gewichteter Durchschnitt von Simulation (Glockenkurve)
+- Anregung auf Glockenkurve
+
+[sonification_2024_04_19-10_01_20.wav](results%2Fphysical_modelling%2Fsonification_2024_04_19-10_01_20.wav)
+- Massenverteilung: Glockenkurve von frame[0]
+- Abtastung: Gewichteter Durchschnitt von Simulation (Glockenkurve)
+- Anregung auf anderen Seite von Glockenkurve
+- Gleiche Frequenz nur heller
+
+
+
+
+
+
+
+
+
+
+
