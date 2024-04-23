@@ -148,12 +148,68 @@ sonification_duration = 3
 - Gleiche Frequenz nur heller
 
 
+---
 
+#### Statische Simulation mit Dirac-Anregung und invertierten Massen
+[physical_modelling_2_transverse.ipynb](physical_modelling_2_transverse.ipynb)
+- Massenverteilung: Glockenkurve von frame[0] (siehe min_mass, max_mass)
+- Abtastung: Durchschnitt
+````
+sample_rate = 4 * 44100
 
+listening = average_listening
+excitement_point = np.array([64, 28])
 
+dampening_per_second = 1 - 1e-3
+spring_strength = sample_rate * 600
+min_mass = 1
+max_mass = 0.01
 
+spatial_step = 4
+````
 
+[sonification_2024_04_22-12_11_31.wav](results%2Fphysical_modelling%2Fsonification_2024_04_22-12_11_31.wav)
+- Anregung auf Platte (im Nichts)
 
+[sonification_2024_04_22-15_09_25.wav](results%2Fphysical_modelling%2Fsonification_2024_04_22-15_09_25.wav)
+- Anregung auf Schräge der Glockenkurve
 
+[sonification_2024_04_22-12_09_06.wav](results%2Fphysical_modelling%2Fsonification_2024_04_22-12_09_06.wav)
+- Anregung direkt auf der Glockenkurve
 
+---
 
+#### Laufende Simulation mit Dirac-Anregung und invertierten Massen
+- Massenverteilung: Laufende Simulation (siehe min_mass, max_mass)
+- Abtastung: Durchschnitt
+- Anregung direkt auf der Glockenkurve
+````
+sample_rate = 4 * 44100
+
+listening = average_listening
+excitement_point = np.array([64, 28])
+
+dampening_per_second = 0.5
+spring_strength = sample_rate * 600
+min_mass = 1
+max_mass = 0.01
+
+spatial_step = 4
+````
+[combination_2024_04_23-11_02_03.mp4](results%2Fphysical_modelling%2Fcombination_2024_04_23-11_02_03.mp4)
+- Schwinung durch Anregung kommt nicht auf der rechten Seite an! (und auch nicht bei jedem Maximum)
+
+[combination_2024_04_23-11_06_09.mp4](results%2Fphysical_modelling%2Fcombination_2024_04_23-11_06_09.mp4)
+- Abtastung: Gewichteter Durchschnitt
+
+[combination_2024_04_23-11_54_21.mp4](results%2Fphysical_modelling%2Fcombination_2024_04_23-11_54_21.mp4)
+- Anregung: Rauschen durch Bewegung
+- ````dampening_per_second = 0.9````
+- Scheint nicht wirklich unterschiedlich zu klingen.
+- Auslenkungen sind fast gleichmäßig verteilt
+- Rechte Hälft schwingt deutlich weniger als Linke
+
+[combination_2024_04_23-12_03_07.mp4](results%2Fphysical_modelling%2Fcombination_2024_04_23-12_03_07.mp4)
+- Anregung: Rauschen durch Bewegung
+- ````dampening_per_second = 0.9````
+- Abtastung: Gewichteter Durchschnitt
