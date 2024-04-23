@@ -23,6 +23,13 @@ def parabola(x, y, n, offset, factor):
 def calculate_next_psi(psi, dt, potential):
     n = psi.shape[0]
 
+    wall = 0
+    next_psi = psi
+    next_psi[:wall, :] = 0
+    next_psi[-wall:, :] = 0
+    next_psi[:, :wall] = 0
+    next_psi[:, -wall:] = 0
+
     # potential-part
     next_psi = psi * np.exp(1j * dt * potential)
 
@@ -35,6 +42,12 @@ def calculate_next_psi(psi, dt, potential):
     next_psi *= np.exp(1j * theta)
 
     next_psi = np.fft.ifft2(next_psi)
+
+    next_psi[:wall, :] = 0
+    next_psi[-wall:, :] = 0
+    next_psi[:, :wall] = 0
+    next_psi[:, -wall:] = 0
+
     return next_psi
 
 
