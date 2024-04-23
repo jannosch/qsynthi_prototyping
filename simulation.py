@@ -1,11 +1,17 @@
 import numpy as np
 # import matplotlib.pyplot as plt
 
+
 # TODO: Scale to integral = 1
-def gaussian(x, y, n, offset, width):
+def gaussian(x, y, n, offset, width, imag=False):
     x = (x - n / 2.0) / (n / 2.0) - offset[0]
     y = (y - n / 2.0) / (n / 2.0) - offset[1]
-    return np.exp(-(x * x + y * y) / (width * width)).astype(complex)
+    value = np.exp(-(x * x + y * y) / (width * width))
+    return complex(0, value) if imag else value.astype(complex)
+
+
+def gaussian_impulse(x, y, n, offset, width, impulse=0.1):
+    return np.exp(-1.j * 2 * np.pi * impulse * x) * gaussian(x, y, n, offset, width)
 
 
 def parabola(x, y, n, offset, factor):
@@ -62,3 +68,5 @@ def sim(n, sim_fps, duration, slits, sim_speed, initial_state=None, potential=No
         frames[i] = calculate_next_psi(frames[i-1], sim_speed / sim_fps, potential)
 
     return frames
+
+#%%
