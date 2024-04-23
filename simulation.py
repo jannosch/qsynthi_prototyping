@@ -2,7 +2,6 @@ import numpy as np
 # import matplotlib.pyplot as plt
 
 
-# TODO: Scale to integral = 1
 def gaussian(x, y, n, offset, width, imag=False):
     x = (x - n / 2.0) / (n / 2.0) - offset[0]
     y = (y - n / 2.0) / (n / 2.0) - offset[1]
@@ -21,19 +20,25 @@ def parabola(x, y, n, offset, factor):
 
 
 def wall(psi, width):
-    psi[:width, :] = 0
-    psi[-width:, :] = 0
-    psi[:, :width] = 0
-    psi[:, -width:] = 0
+    if width > 0:
+        psi[:width, :] = 0
+        psi[-width:, :] = 0
+        psi[:, :width] = 0
+        psi[:, -width:] = 0
+    return psi
+
+
+def normalized(psi):
+    return psi / np.sqrt(np.sum(np.square(np.abs(psi))))
 
 
 def calculate_next_psi(psi, dt, potential, normalize, wall_width):
     n = psi.shape[0]
 
-    wall(psi, wall_width)
+    next_psi = wall(psi, wall_width)
 
     # potential-part
-    next_psi = psi * np.exp(1j * dt * potential)
+    next_psi = next_psi * np.exp(1j * dt * potential)
 
     next_psi = np.fft.fft2(next_psi)
 
@@ -45,12 +50,9 @@ def calculate_next_psi(psi, dt, potential, normalize, wall_width):
 
     next_psi = np.fft.ifft2(next_psi)
 
-    wall(psi, wall_width)
+    next_psi = wall(next_psi, wall_width)
 
-    if normalize:
-        integral = np.sum(np.square(np.abs(next_psi)))
-        if integral > 0:
-            next_psi /= integral
+    if normalize: next_psi = normalized(next_psi)
 
     return next_psi
 
@@ -75,6 +77,8 @@ def sim(n, sim_fps, duration, slits, sim_speed, initial_state=None, potential=No
         frames[0] = np.array([[gaussian(x, y, n, offset=[-0.6, 0.0], width=0.05) for x in range(n)] for y in range(n)])
     else:
         frames[0] = initial_state
+
+    if normalize: frames[0] = normalized(frames[0])
 
     # plt.pcolormesh(pow(np.abs(frames[0]), 2.0/3.0), cmap='inferno', vmin=0, vmax=1)
     # plt.pcolormesh(potential, vmin=0, vmax=20000)
