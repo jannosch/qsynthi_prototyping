@@ -20,7 +20,7 @@ def parabola(x, y, n, offset, factor):
     return factor * (x * x + y * y)
 
 
-def calculate_next_psi(psi, dt, potential):
+def calculate_next_psi(psi, dt, potential, normalize=True):
     n = psi.shape[0]
 
     # potential-part
@@ -35,10 +35,16 @@ def calculate_next_psi(psi, dt, potential):
     next_psi *= np.exp(1j * theta)
 
     next_psi = np.fft.ifft2(next_psi)
+
+    if normalize:
+        integral = np.sum(np.square(np.abs(next_psi)))
+        if integral > 0:
+            next_psi /= integral
+
     return next_psi
 
 
-def sim(n, sim_fps, duration, slits, sim_speed, initial_state=None, potential=None):
+def sim(n, sim_fps, duration, slits, sim_speed, initial_state=None, potential=None, normalize=True):
     if potential is None:
         potential = np.array([[parabola(x, y, n, offset=[0, 0], factor=10000) for x in range(n)] for y in range(n)])
 
@@ -65,7 +71,7 @@ def sim(n, sim_fps, duration, slits, sim_speed, initial_state=None, potential=No
     # plt.show()
 
     for i in range(1, frame_amount):
-        frames[i] = calculate_next_psi(frames[i-1], sim_speed / sim_fps, potential)
+        frames[i] = calculate_next_psi(frames[i-1], sim_speed / sim_fps, potential, normalize)
 
     return frames
 
