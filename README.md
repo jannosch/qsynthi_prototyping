@@ -37,6 +37,35 @@
 - Starke Ähnlichkeit zum 1D Wavetable mit Tunneleffekt (QSynthi)
 
 
+## Spektrum-Mapping
+
+### Ziele
+
+
+
+### Ergebnisse
+
+- Kreis
+- 300 linear verteilte Frequenzen
+
+- Kreis
+- 300 exponentiell verteilte Frequenzen
+
+- Halbkreis
+- 300 linear verteilte Frequenzen
+
+- Halbkreis
+- 50 exponentiell verteilte Frequenzen
+
+[combination_2024_04_23-17_19_14.mp4](results%2Fmapping%2Fcombination_2024_04_23-17_19_14.mp4)
+- Halbkreis (Abtastung von unten nach oben, dann Sprung)
+- Stereo (linkes Ohr = linke Hälfte der Simulation)
+- 300 exponentiell verteilte Frequenzen
+- Gute räumliche Ortung der Verteilung
+- Viele Mitten -> Konzentration der Verteilung um y=0
+  - nur mit Vergleichen herauszufinden
+
+
 ## Physical Modelling
 
 

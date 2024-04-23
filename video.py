@@ -60,3 +60,4 @@ def combine(audio_filename, video_filename):
 
     # Execute the command
     subprocess.run(ffmpeg_command)
+    print(f'combination saved as {combined_filename}')
