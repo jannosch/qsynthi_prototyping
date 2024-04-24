@@ -45,7 +45,7 @@
 
 ### Ergebnisse
 
-#### Manuelles Mapping
+#### Manuelles Mapping - Kreis
 
 Parameter:
 - Verteilung von 100 bis 4000 Hz
@@ -53,48 +53,49 @@ Parameter:
   - n = 128
   - sim_speed = 0.004
   - sim_fps = 400
-
+- Radius des (Halb)kreises, wenn nicht anders angegeben: 0.6
 
 [combination_2024_04_24-09_47_11.mp4](results%2Fmapping%2Fcombination_2024_04_24-09_47_11.mp4)
-- Kreis
 - 50 linear verteilte Frequenzen
 
 [combination_2024_04_24-09_54_44.mp4](results%2Fmapping%2Fcombination_2024_04_24-09_54_44.mp4)
-- Kreis
 - 300 linear verteilte Frequenzen
 - Frequenzen löschen sich gegenseitig aus (?)
 
 [combination_2024_04_24-10_00_00.mp4](results%2Fmapping%2Fcombination_2024_04_24-10_00_00.mp4)
-- Kreis
 - 50 exponentiell verteilte Frequenzen
 - Keine regelmäßige Auslöschung mehr
 - Natürlicheres Hören (?)
 
 [combination_2024_04_24-09_57_24.mp4](results%2Fmapping%2Fcombination_2024_04_24-09_57_24.mp4)
-- Kreis
 - 300 exponentiell verteilte Frequenzen
 - s.o.
 - Bessere Qualität (?)
 
+#### Manuelles Mapping - Halbkreis
+- Stereo Audio
+  - linke Hälfte der Simulation -> linkes Ohr (und umgekehrt)
+
 [combination_2024_04_24-10_04_45.mp4](results%2Fmapping%2Fcombination_2024_04_24-10_04_45.mp4)
-- Halbkreis
 - 50 linear verteilte Frequenzen
 
 [combination_2024_04_24-10_06_11.mp4](results%2Fmapping%2Fcombination_2024_04_24-10_06_11.mp4)
-- Halbkreis
 - 300 linear verteilte Frequenzen
 
 [combination_2024_04_24-10_06_51.mp4](results%2Fmapping%2Fcombination_2024_04_24-10_06_51.mp4)
-- Halbkreis
 - 50 exponentiell verteilte Frequenzen
 
 [combination_2024_04_23-17_19_14.mp4](results%2Fmapping%2Fcombination_2024_04_23-17_19_14.mp4)
-- Halbkreis (Abtastung von unten nach oben, dann Sprung)
-- Stereo (linkes Ohr = linke Hälfte der Simulation)
 - 300 exponentiell verteilte Frequenzen
 - Gute räumliche Ortung der Verteilung
 - Viele Mitten -> Konzentration der Verteilung um y=0
-  - nur mit Vergleichen herauszufinden
+  - nur mit Vergleichen herauszufinden (siehe Bsp. unten)
+
+[combination_2024_04_24-10_37_27.mp4](results%2Fmapping%2Fcombination_2024_04_24-10_37_27.mp4)
+- 300 exponentiell verteilte Frequenzen
+- Radius = 0.25
+- Unterschied zu vorherigen: größeres Spektrum hörbar, 
+schärfere "Wellen" erkennbar -> Wellenberge und -täler (?!)
 
 ---
 
