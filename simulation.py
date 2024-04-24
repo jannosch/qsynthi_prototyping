@@ -57,7 +57,7 @@ def calculate_next_psi(psi, dt, potential, normalize, wall_width):
     return next_psi
 
 
-def sim(n, sim_fps, duration, slits, sim_speed, initial_state=None, potential=None, normalize=True, wall_width=0):
+def sim(n, sim_fps, duration, slits, barrier_width, sim_speed, initial_state=None, potential=None, normalize=True, wall_width=0):
     if potential is None:
         potential = np.array([[parabola(x, y, n, offset=[0, 0], factor=10000) for x in range(n)] for y in range(n)])
 
@@ -67,7 +67,7 @@ def sim(n, sim_fps, duration, slits, sim_speed, initial_state=None, potential=No
     for s in slits:
         barrier[n // 2 + s[0]:n // 2 + s[1]] = [0] * (s[1] - s[0])
     for i in range(n):
-        potential[:, n // 2 - 1] += np.array(barrier)
+        potential[:, n // 2 - 1:n // 2 - 1 + barrier_width] += np.array(barrier)[:, np.newaxis]
 
     # simulation
     frame_amount = duration * sim_fps

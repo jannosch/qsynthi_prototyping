@@ -8,26 +8,26 @@ import subprocess
 
 
 # create visual barrier for plot
-def visual_barrier(n, barrier_gaps):
+def visual_barrier(n, barrier_gaps, barrier_width):
     start = 0
     rects = []
     for g in barrier_gaps:
         end = n//2 + g[0]
-        rect = patches.Rectangle((n//2 - 1.5, start - 0.5), 1, end - start, linewidth=0, facecolor='#60b0ff')
+        rect = patches.Rectangle((n//2 - 1.5, start - 0.5), barrier_width, end - start, linewidth=0, facecolor='#60b0ff')
         start = n//2 + g[1]
         rects.append(rect)
-    rects.append(patches.Rectangle((n//2 - 1.5, start - 0.5), 1, n - start, linewidth=0, facecolor='#60b0ff'))
+    rects.append(patches.Rectangle((n//2 - 1.5, start - 0.5), barrier_width, n - start, linewidth=0, facecolor='#60b0ff'))
     return rects
 
 
-def create(frames, video_fps, frame_amount, sim_fps, slits, n):
+def create(frames, video_fps, frame_amount, sim_fps, slits, barrier_width, n, save=True):
     # FuncAnimation
     fig, ax = plt.subplots()
     plt.axis('off')  # big performance boost
 
     data = np.abs(frames[0]) ** 2
     cax = ax.imshow(data, cmap='inferno', norm=matplotlib.colors.PowerNorm(vmin=0, vmax=np.max(np.square(np.abs(frames))), gamma=0.4))
-    for b in visual_barrier(n, slits):
+    for b in visual_barrier(n, slits, barrier_width):
         ax.add_patch(b)
     fig.colorbar(cax)  # no performance impact (?)
 
@@ -37,8 +37,9 @@ def create(frames, video_fps, frame_amount, sim_fps, slits, n):
     anim = animation.FuncAnimation(fig, animate, frames=frame_amount * video_fps // sim_fps)
     video_filename = f'output/sim_{datetime.now().strftime("%Y_%m_%d-%H_%M_%S")}.mp4'
 
-    anim.save(video_filename, fps=video_fps, dpi=150, bitrate=4000)
-    print(f'video saved as {video_filename}')
+    if save:
+        anim.save(video_filename, fps=video_fps, dpi=150, bitrate=4000)
+        print(f'video saved as {video_filename}')
 
     return video_filename, anim
 

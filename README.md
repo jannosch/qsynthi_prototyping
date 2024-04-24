@@ -6,7 +6,7 @@
 
 # Ansätze
 
-## Mapping
+## Audification
 
 
 
@@ -72,6 +72,8 @@ Parameter:
 - s.o.
 - Bessere Qualität (?)
 
+---
+
 #### Manuelles Mapping - Halbkreis
 - Stereo Audio
   - linke Hälfte der Simulation -> linkes Ohr (und umgekehrt)
@@ -99,7 +101,10 @@ schärfere "Wellen" erkennbar -> Wellenberge und -täler (?!)
 
 ---
 
-#### STFT
+#### Manuelles Mapping - Linie
+[combination_2024_04_24-12_00_09.mp4](results%2Fmapping%2Fcombination_2024_04_24-12_00_09.mp4)
+- 40 lineare Frequenzen (0-4000 Hz)
+- Randomisierte Phasen der Sinusoids
 
 
 
