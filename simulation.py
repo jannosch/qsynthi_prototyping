@@ -66,8 +66,7 @@ def sim(n, sim_fps, duration, slits, barrier_width, sim_speed, initial_state=Non
     barrier = [barrier_height] * n
     for s in slits:
         barrier[n // 2 + s[0]:n // 2 + s[1]] = [0] * (s[1] - s[0])
-    for i in range(n):
-        potential[:, n // 2 - 1:n // 2 - 1 + barrier_width] += np.array(barrier)[:, np.newaxis]
+    potential[:, n // 2 - 1:n // 2 - 1 + barrier_width] += np.array(barrier)[:, np.newaxis]
 
     # simulation
     frame_amount = duration * sim_fps
