@@ -20,7 +20,7 @@ def visual_barrier(n, barrier_gaps, barrier_x, barrier_width):
     return rects
 
 
-def create(frames, video_fps, frame_amount, sim_fps, slits, barrier_x, barrier_width, n, save=True):
+def create(frames, video_fps, video_speed, frame_amount, sim_fps, slits, barrier_x, barrier_width, n, save=True):
     # FuncAnimation
     fig, ax = plt.subplots()
     plt.axis('off')  # big performance boost
@@ -32,9 +32,9 @@ def create(frames, video_fps, frame_amount, sim_fps, slits, barrier_x, barrier_w
     fig.colorbar(cax)  # no performance impact (?)
 
     def animate(i):
-        cax.set_array(np.abs(frames[i * sim_fps // video_fps]) ** 2)
+        cax.set_array(np.abs(frames[int(i * sim_fps / video_fps * video_speed)]) ** 2)
 
-    anim = animation.FuncAnimation(fig, animate, frames=frame_amount * video_fps // sim_fps)
+    anim = animation.FuncAnimation(fig, animate, frames=int(frame_amount * video_fps / sim_fps / video_speed))
     video_filename = f'output/sim_{datetime.now().strftime("%Y_%m_%d-%H_%M_%S")}.mp4'
 
     if save:

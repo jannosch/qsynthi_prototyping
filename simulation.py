@@ -15,9 +15,8 @@ def gaussian_x_impulse(x, y, n, offset, width, height, impulse=0.1):
 
 def parabola(x, y, n, offset, factor):
     x = (x - n / 2.0) / (n / 2.0) - offset[0]
-    x = 0
     y = (y - n / 2.0) / (n / 2.0) - offset[1]
-    return factor * (x * x + y * y)
+    return factor[0] * x ** factor[2] + factor[1] * y ** factor[2]
 
 
 def wall(psi, width):
@@ -60,7 +59,7 @@ def calculate_next_psi(psi, dt, potential, normalize, wall_width):
 
 def sim(n, sim_fps, duration, slits, barrier_x, barrier_width, sim_speed, initial_state=None, potential=None, normalize=True, wall_width=0):
     if potential is None:
-        potential = np.array([[parabola(x, y, n, offset=[0, 0], factor=10000) for x in range(n)] for y in range(n)])
+        potential = np.array([[parabola(x, y, n, offset=(0, 0), factor=(10000, 10000)) for x in range(n)] for y in range(n)])
 
     # barrier
     barrier_height = 1e60
@@ -74,7 +73,7 @@ def sim(n, sim_fps, duration, slits, barrier_x, barrier_width, sim_speed, initia
 
     frames = np.empty((frame_amount, n, n), dtype=complex)  # for storing the generated images
     if initial_state is None:
-        frames[0] = np.array([[gaussian(x, y, n, offset=[-0.6, 0.0], width=0.05) for x in range(n)] for y in range(n)])
+        frames[0] = np.array([[gaussian(x, y, n, offset=[-0.6, 0.0], width=0.15, height=0.15) for x in range(n)] for y in range(n)])
     else:
         frames[0] = initial_state
 
