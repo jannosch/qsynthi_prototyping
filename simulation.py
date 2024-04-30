@@ -2,19 +2,20 @@ import numpy as np
 # import matplotlib.pyplot as plt
 
 
-def gaussian(x, y, n, offset, width, imag=False):
+def gaussian(x, y, n, offset, width, height, imag=False):
     x = (x - n / 2.0) / (n / 2.0) - offset[0]
     y = (y - n / 2.0) / (n / 2.0) - offset[1]
-    value = np.exp(-(x * x + y * y) / (width * width))
+    value = np.exp(-(x * x / (width * width) + y * y / (height * height)))
     return complex(0, value) if imag else value.astype(complex)
 
 
-def gaussian_impulse(x, y, n, offset, width, impulse=0.1):
-    return np.exp(-1.j * 2 * np.pi * impulse * x) * gaussian(x, y, n, offset, width)
+def gaussian_x_impulse(x, y, n, offset, width, height, impulse=0.1):
+    return np.exp(-1.j * 2 * np.pi * impulse * x) * gaussian(x, y, n, offset, width, height)
 
 
 def parabola(x, y, n, offset, factor):
     x = (x - n / 2.0) / (n / 2.0) - offset[0]
+    x = 0
     y = (y - n / 2.0) / (n / 2.0) - offset[1]
     return factor * (x * x + y * y)
 
@@ -57,7 +58,7 @@ def calculate_next_psi(psi, dt, potential, normalize, wall_width):
     return next_psi
 
 
-def sim(n, sim_fps, duration, slits, barrier_width, sim_speed, initial_state=None, potential=None, normalize=True, wall_width=0):
+def sim(n, sim_fps, duration, slits, barrier_x, barrier_width, sim_speed, initial_state=None, potential=None, normalize=True, wall_width=0):
     if potential is None:
         potential = np.array([[parabola(x, y, n, offset=[0, 0], factor=10000) for x in range(n)] for y in range(n)])
 
@@ -66,7 +67,7 @@ def sim(n, sim_fps, duration, slits, barrier_width, sim_speed, initial_state=Non
     barrier = [barrier_height] * n
     for s in slits:
         barrier[n // 2 + s[0]:n // 2 + s[1]] = [0] * (s[1] - s[0])
-    potential[:, n // 2 - 1:n // 2 - 1 + barrier_width] += np.array(barrier)[:, np.newaxis]
+    potential[:, barrier_x:barrier_x + barrier_width] += np.array(barrier)[:, np.newaxis]
 
     # simulation
     frame_amount = duration * sim_fps
