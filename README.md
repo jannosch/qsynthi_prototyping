@@ -285,3 +285,29 @@ spatial_step = 4
 - Anregung: Rauschen durch Bewegung
 - ````dampening_per_second = 0.9````
 - Abtastung: Gewichteter Durchschnitt
+
+---
+
+#### Sample Rate-Reduktion
+- Laufende Simulation mit Dirac-Anregung und invertierten Massen
+- Massenverteilung: Laufende Simulation (siehe min_mass, max_mass)
+- Abtastung: Durchschnitt
+- Anregung direkt auf der Glockenkurve
+- 1 zu 1 Samplerate!
+- Langsameres Video
+````
+sample_rate = 44100
+
+listening = average_listening
+scaling = scaling_none
+excitement_point = np.array([64, 28])
+
+dampening_per_second = 0.5 # 1 - 1e-3
+spring_strength = sample_rate * 1000
+min_mass = 1
+max_mass = 0.01
+
+spatial_step = 4
+````
+
+[combination_2024_04_24-10_23_58.mp4](results%2Fphysical_modelling%2Fcombination_2024_04_24-10_23_58.mp4)

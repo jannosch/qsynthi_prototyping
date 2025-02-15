@@ -35,13 +35,12 @@ def normalized(psi):
 def calculate_next_psi(psi, dt, potential, normalize, wall_width):
     n = psi.shape[0]
 
-    next_psi = wall(psi, wall_width)
-
     # potential-part
-    next_psi = next_psi * np.exp(1j * dt * potential)
+    next_psi = psi * np.exp(1j * dt * potential)
 
     next_psi = np.fft.fft2(next_psi)
 
+    # kinetic part
     indices = 2 * np.pi * np.min(np.array([np.arange(n), n - np.arange(n)]), axis=0)
     k = indices.reshape(-1, 1)
     l = indices.reshape(1, -1)
@@ -59,7 +58,7 @@ def calculate_next_psi(psi, dt, potential, normalize, wall_width):
 
 def sim(n, sim_fps, duration, slits, barrier_x, barrier_width, sim_speed, initial_state=None, potential=None, normalize=True, wall_width=0):
     if potential is None:
-        potential = np.array([[parabola(x, y, n, offset=(0, 0), factor=(10000, 10000)) for x in range(n)] for y in range(n)])
+        potential = np.array([[parabola(x, y, n, offset=(0, 0), factor=(10000, 10000, 2)) for x in range(n)] for y in range(n)])
 
     # barrier
     barrier_height = 1e60
@@ -77,6 +76,7 @@ def sim(n, sim_fps, duration, slits, barrier_x, barrier_width, sim_speed, initia
     else:
         frames[0] = initial_state
 
+    frames[0] = wall(frames[0], wall_width)
     if normalize: frames[0] = normalized(frames[0])
 
     # plt.pcolormesh(pow(np.abs(frames[0]), 2.0/3.0), cmap='inferno', vmin=0, vmax=1)
@@ -89,4 +89,4 @@ def sim(n, sim_fps, duration, slits, barrier_x, barrier_width, sim_speed, initia
 
     return frames
 
-#%%
+# %%
