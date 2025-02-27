@@ -69,8 +69,9 @@ def combine(audio_filename, video_filename):
     print(f'Video with Audio saved as {combined_filename}')
     return combined_filename
 
-def combine_asig(asig, video_filename):
+def combine_asig(asig, video_filename, normalize=True):
     audio_filename = (f'output/sonification_{datetime.now().strftime("%Y_%m_%d-%H_%M_%S")}.wav')
+    if normalize: asig = asig.norm()
     asig.save_wavfile(audio_filename)
     
     return combine(audio_filename, video_filename)
