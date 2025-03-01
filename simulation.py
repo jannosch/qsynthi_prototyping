@@ -62,7 +62,7 @@ class Barrier():
         potential[:, self.x:self.x + self.width] += barrier[:, np.newaxis]
         return potential
     
-    def get_rects(self, frame_size, color='#ffffff'):
+    def get_patches(self, frame_size, color='#ffffff'):
         start = 0
         rects = []
         for slit in self.slits:
@@ -77,7 +77,7 @@ class Barrier():
     
 
 class Simulation():
-    def __init__(self, title, fps, speed, initial_state, potential, barrier: Barrier = None, border_width=4):
+    def __init__(self, title, fps, speed, initial_state, potential, barrier: Barrier = None, border_width=4, video_gamma=0.5):
         self.title = title
         self.fps = fps
         self.speed = speed
@@ -92,6 +92,7 @@ class Simulation():
         
         self.border_width=4
         
+        self.video_gamma = video_gamma
         self.video_filename = None
     
     def num_frames(self):
@@ -143,15 +144,18 @@ class Simulation():
     def simulate(self, seconds, normalize=True):
         return self.simulate_steps(num_steps=self.fps * seconds, normalize=normalize)
     
-    def render_video(self, video_fps=20, complex_to_real_fn=probability_density, gamma=0.5, show_axis=True):
+    def render_video(self, video_fps=20, complex_to_real_fn=probability_density, show_axis=True, additional_patches=None):
         fig, ax = plt.subplots()
         if not show_axis: plt.axis('off') # big performance boost
 
         data = complex_to_real_fn(self.frames[0])
-        cax = ax.imshow(data, cmap='inferno', norm=matplotlib.colors.PowerNorm(vmin=0, vmax=np.max(complex_to_real_fn(self.frames)), gamma=gamma))
+        cax = ax.imshow(data, cmap='inferno', norm=matplotlib.colors.PowerNorm(vmin=0, vmax=np.max(complex_to_real_fn(self.frames)), gamma=self.video_gamma))
         if self.barrier:
-            for b in self.barrier.get_rects(self.frame_size):
-                ax.add_patch(b)
+            for p in self.barrier.get_patches(self.frame_size):
+                ax.add_patch(p)
+        if additional_patches:
+            for p in additional_patches:
+                ax.add_patch(p)
         fig.colorbar(cax) # no performance boost
         if self.title:
             ax.set_title(self.title)
@@ -161,15 +165,21 @@ class Simulation():
 
         anim = animation.FuncAnimation(fig, animate, frames=int(self.num_frames() / self.fps * video_fps))
         
-        self.video_filename = f'output/{clean_filename(self.title)}_{datetime.now().strftime("%Y_%m_%d-%H_%M_%S")}.mp4'
-        anim.save(self.video_filename, fps=video_fps, dpi=150, bitrate=4000)
-        print(f'Video saved as {self.video_filename}')
+        video_filename = f'output/{clean_filename(self.title)}_{datetime.now().strftime("%Y_%m_%d-%H_%M_%S")}.mp4'
+        if not additional_patches:
+            self.video_filename = video_filename
+        anim.save(video_filename, fps=video_fps, dpi=150, bitrate=4000)
+        print(f'Video saved as {video_filename}')
         plt.close()
-        return self.video_filename
+        return video_filename
         
-    def video_with_sonification(self, asig, sonification_title="sonification", normalize_audio=True):
-        if not self.video_filename:
-            self.render_video()
+    def video_with_sonification(self, asig, sonification_title="sonification", additional_patches=None, normalize_audio=True):
+        if additional_patches:
+            video_filename = self.render_video(additional_patches=additional_patches)
+        elif not self.video_filename:
+            video_filename = self.render_video()
+        else:
+            video_filename = self.video_filename
             
         # Save asig as audio file
         audio_filename = (f'output/{clean_filename(self.title)}_{clean_filename(sonification_title)}_{datetime.now().strftime("%Y_%m_%d-%H_%M_%S")}.wav')
@@ -186,7 +196,7 @@ class Simulation():
             'ffmpeg',
             '-loglevel', 'error',
             '-hide_banner',
-            '-i', self.video_filename,  # Input video file
+            '-i', video_filename,       # Input video file
             '-i', audio_filename,       # Input audio file
             '-c:v', 'copy',             # Copy the video stream
             '-c:a', 'flac',             # If 'flac' doesn't work, try 'aac'
