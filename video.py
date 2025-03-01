@@ -22,16 +22,18 @@ def visual_barrier(n, barrier_gaps, barrier_x, barrier_width):
     return rects
 
 
-def create(frames, video_fps, video_speed, frame_amount, sim_fps, slits, barrier_x, barrier_width, n, complex_to_real_fn=lambda z: np.square(np.abs(z)), show_axis=False, save=True):
+def create(frames, video_fps, video_speed, frame_amount, sim_fps, slits, barrier_x, barrier_width, n, complex_to_real_fn=lambda z: np.square(np.abs(z)), show_axis=False, save=True, title=None, gamma=0.5):
     # FuncAnimation
     fig, ax = plt.subplots()
     if not show_axis: plt.axis('off')  # big performance boost
 
     data = np.abs(frames[0]) ** 2
-    cax = ax.imshow(data, cmap='inferno', norm=matplotlib.colors.PowerNorm(vmin=0, vmax=np.max(complex_to_real_fn(frames)), gamma=0.4))
+    cax = ax.imshow(data, cmap='inferno', norm=matplotlib.colors.PowerNorm(vmin=0, vmax=np.max(complex_to_real_fn(frames)), gamma=gamma))
     for b in visual_barrier(n, slits, barrier_x, barrier_width):
         ax.add_patch(b)
     fig.colorbar(cax)  # no performance impact (?)
+    if title:
+        ax.set_title(title)
 
     def animate(i):
         cax.set_array(complex_to_real_fn(frames[int(i * sim_fps / video_fps * video_speed)]))
@@ -47,8 +49,8 @@ def create(frames, video_fps, video_speed, frame_amount, sim_fps, slits, barrier
     return video_filename, anim
 
 
-def combine(audio_filename, video_filename):
-    combined_filename = f'output/combination_{datetime.now().strftime("%Y_%m_%d-%H_%M_%S")}.mp4'
+def combine(audio_filename, video_filename, result_filename="combination"):
+    combined_filename = f'output/{result_filename}_{datetime.now().strftime("%Y_%m_%d-%H_%M_%S")}.mp4'
 
     # Construct the ffmpeg command to combine video and audio
     ffmpeg_command = [
@@ -69,9 +71,12 @@ def combine(audio_filename, video_filename):
     print(f'Video with Audio saved as {combined_filename}')
     return combined_filename
 
-def combine_asig(asig, video_filename, normalize=True):
+
+def combine_asig(asig, video_filename, result_filename="combination", normalize_audio=True):
     audio_filename = (f'output/sonification_{datetime.now().strftime("%Y_%m_%d-%H_%M_%S")}.wav')
-    if normalize: asig = asig.norm()
+    if normalize_audio:
+        asig = asig.norm()
+    asig = asig.fade_in(0.05).fade_out(0.05)
     asig.save_wavfile(audio_filename)
-    
-    return combine(audio_filename, video_filename)
+
+    return combine(audio_filename, video_filename, result_filename)
