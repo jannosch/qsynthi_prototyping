@@ -144,13 +144,14 @@ class Simulation():
     def simulate(self, seconds, normalize=True):
         return self.simulate_steps(num_steps=self.fps * seconds, normalize=normalize)
     
-    def render_video(self, video_fps=20, complex_to_real_fn=probability_density, show_axis=True, additional_patches=None):
+    def render_video(self, video_fps=20, complex_to_real_fn=probability_density, show_axis=True, additional_patches=None, render_barrier=True):
+        plt.close()
         fig, ax = plt.subplots()
         if not show_axis: plt.axis('off') # big performance boost
 
         data = complex_to_real_fn(self.frames[0])
         cax = ax.imshow(data, cmap='inferno', norm=matplotlib.colors.PowerNorm(vmin=0, vmax=np.max(complex_to_real_fn(self.frames)), gamma=self.video_gamma))
-        if self.barrier:
+        if render_barrier and self.barrier:
             for p in self.barrier.get_patches(self.frame_size):
                 ax.add_patch(p)
         if additional_patches:
